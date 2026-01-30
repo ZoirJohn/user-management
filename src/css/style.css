@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+* {
+	font-family: "Funnel Sans";
+}
+#root {
+	min-height: 100vh;
+}
+.sticky-header {
+	position: sticky;
+	top: 0;
+}
