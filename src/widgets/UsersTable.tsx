@@ -8,19 +8,19 @@ const data: User[] = [
 		name: "John Doe",
 		email: "johndoe@email.com",
 		status: "active",
-		lastSeen: new Date("2025-01-01"),
+		lastSeen: new Date("2026-03-31T12:00:00+05:00"),
 	},
 	{
 		name: "Jane Smith",
 		email: "janesmith@email.com",
 		status: "unverified",
-		lastSeen: new Date("2023-01-02"),
+		lastSeen: new Date("2026-03-31T12:00:00+05:00"),
 	},
 	{
 		name: "Bob Johnson",
 		email: "bobjohnson@email.com",
 		status: "blocked",
-		lastSeen: new Date("2026-30-03"),
+		lastSeen: new Date("2026-03-31T12:00:00+05:00"),
 	},
 ];
 
@@ -41,7 +41,7 @@ export default function UsersTable() {
 		});
 	};
 	const deleteSelectedUsers = () => {
-		const newUsers = [...users.filter((user, i) => !checkedRows[i])];
+		const newUsers = [...users.filter((_, i) => !checkedRows[i])];
 		setUsers(newUsers);
 		setCheckedRows(new Array(users.length).fill(false));
 	};
@@ -52,7 +52,10 @@ export default function UsersTable() {
 			<table className="table">
 				<colgroup>
 					<col style={{ width: "40px" }} />
-				</colgroup>
+					<col style={{ width: "25%" }} />
+					<col style={{ width: "25%" }} />
+					<col style={{ width: "25%" }} />
+				</colgroup> 
 				<thead className="fs-md-6 fixed table-dark position-sticky" style={{ top: "46px", zIndex: 2 }}>
 					<tr>
 						<th>

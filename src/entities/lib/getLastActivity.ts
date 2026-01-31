@@ -9,12 +9,12 @@ export function getLastActivity(lastActivity: Date) {
 	const dayDiff = days - lastActivityDays;
 	const hourDiff = hours - lastActivityHours;
 	const minDiff = minutes - lastActivityMinutes;
-	console.log(years, lastActivityYears);
-	if (yearDiff) return `${yearDiff} year${yearDiff > 1 ? "s" : ""} ago`;
-	if (monthDiff) return `${monthDiff} month${monthDiff > 1 ? "s" : ""} ago`;
-	if (dayDiff) return `${dayDiff} day${dayDiff > 1 ? "s" : ""} ago`;
-	if (hourDiff) return `${hourDiff} hour${hourDiff > 1 ? "s" : ""} ago`;
-	if (minDiff) return `${minDiff} minute${minDiff > 1 ? "s" : ""} ago`;
+	console.log(lastActivity);
+	if (yearDiff > 0) return `${yearDiff} year${yearDiff > 1 ? "s" : ""} ago`;
+	if (monthDiff > 0) return `${monthDiff} month${monthDiff > 1 ? "s" : ""} ago`;
+	if (dayDiff > 0) return `${dayDiff} day${dayDiff > 1 ? "s" : ""} ago`;
+	if (hourDiff > 0) return `${hourDiff} hour${hourDiff > 1 ? "s" : ""} ago`;
+	if (minDiff > 0) return `${minDiff} minute${minDiff > 1 ? "s" : ""} ago`;
 
 	return "less than a minute ago";
 }
