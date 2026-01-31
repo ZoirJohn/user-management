@@ -1,29 +1,18 @@
-export default function Controls() {
+export default function Controls({ deleteUsers }: { deleteUsers: () => void }) {
 	return (
-		<div className="d-flex">
-			<button type="button" className="btn btn-primary">
-				Primary
+		<div className="d-flex justify-content-start w-100 gap-2 position-sticky" style={{ top: "4px", zIndex: 2 }}>
+			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }}>
+				<i className="bi bi-lock-fill me-1"></i>
+				Block
 			</button>
-			<button type="button" className="btn btn-secondary">
-				Secondary
+			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }}>
+				<i className="bi bi-unlock-fill"></i>
 			</button>
-			<button type="button" className="btn btn-success">
-				Success
+			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }} onClick={deleteUsers}>
+				<i className="bi bi-trash-fill"></i>
 			</button>
-			<button type="button" className="btn btn-danger">
-				Danger
-			</button>
-			<button type="button" className="btn btn-warning">
-				Warning
-			</button>
-			<button type="button" className="btn btn-info">
-				Info
-			</button>
-			<button type="button" className="btn btn-light">
-				Light
-			</button>
-			<button type="button" className="btn btn-dark">
-				Dark
+			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }}>
+				<i className="bi bi-x-circle-fill"></i>
 			</button>
 		</div>
 	);

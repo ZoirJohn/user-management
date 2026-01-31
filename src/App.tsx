@@ -1,12 +1,9 @@
-import { Fragment } from "react/jsx-runtime";
-import { data } from "./entities/data";
 import UsersTable from "./widgets/UsersTable";
 
 export default function App() {
 	return (
-		<Fragment>
-			<Controls />
-			<UsersTable users={data} />
-		</Fragment>
+		<div className="d-flex flex-column align-items-center gap-1 p-1">
+			<UsersTable  />
+		</div>
 	);
 }

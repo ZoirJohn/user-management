@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import App from "./App.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.min.css";
 import "./css/style.css";
 
 createRoot(document.getElementById("root")!).render(

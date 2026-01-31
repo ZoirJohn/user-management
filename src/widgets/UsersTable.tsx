@@ -1,11 +1,33 @@
 import { useState } from "react";
-import Row from "./Row";
 import type { User } from "../entities/types";
-import { getLastActivity } from "../entities/lib/getLastActivity";
+import Row from "./Row";
+import Controls from "./Controls";
 
-export default function UsersTable({ users }: { users: User[] }) {
+const data: User[] = [
+	{
+		name: "John Doe",
+		email: "johndoe@email.com",
+		status: "active",
+		lastSeen: new Date("2025-01-01"),
+	},
+	{
+		name: "Jane Smith",
+		email: "janesmith@email.com",
+		status: "unverified",
+		lastSeen: new Date("2023-01-02"),
+	},
+	{
+		name: "Bob Johnson",
+		email: "bobjohnson@email.com",
+		status: "blocked",
+		lastSeen: new Date("2026-30-03"),
+	},
+];
+
+export default function UsersTable() {
+	const [users, setUsers] = useState<User[]>(data);
+
 	const [checkedRows, setCheckedRows] = useState<boolean[]>(new Array(users.length).fill(false));
-	// const [sortBy, setSortBy] = useState<string>("email");
 
 	const allChecked = checkedRows.length > 0 && checkedRows.every(Boolean);
 	const toggleAllChecked = (value: boolean) => {
@@ -18,30 +40,36 @@ export default function UsersTable({ users }: { users: User[] }) {
 			return newCheckedRows;
 		});
 	};
-	console.log(getLastActivity(users[0].lastSeen));
+	const deleteSelectedUsers = () => {
+		const newUsers = [...users.filter((user, i) => !checkedRows[i])];
+		setUsers(newUsers);
+		setCheckedRows(new Array(users.length).fill(false));
+	};
 	return (
-		<table className="table w-50 mx-auto">
-			<colgroup>
-				<col style={{ width: "40px" }} />
-			</colgroup>
-			<thead className="fs-6 fixed table-dark sticky-header">
-				<tr>
-					<th>
-						<input className="form-check-input m-1" role="button" type="checkbox" value="" aria-label="Checkbox for following cell" onChange={(e) => toggleAllChecked(e.target.checked)} checked={allChecked} />
-					</th>
-					<th>Name</th>
-					<th>Email</th>
-					<th>Status</th>
-					<th>Last Seen</th>
-				</tr>
-			</thead>
-			<tbody className="align-items-center fs-5">
-				{users.map((user, currentRowIndex) => (
-					<Row user={user} checked={checkedRows[currentRowIndex]} onChange={(value) => toggleRowChecked(currentRowIndex, value)} key={user.email} />
-				))}
-			</tbody>
-		</table>
+		<>
+			<Controls deleteUsers={deleteSelectedUsers} />
+			<span className="d-block bg-white w-100 position-fixed top-0" style={{ zIndex: 1, height: "86.5px" }}></span>
+			<table className="table">
+				<colgroup>
+					<col style={{ width: "40px" }} />
+				</colgroup>
+				<thead className="fs-md-6 fixed table-dark position-sticky" style={{ top: "46px", zIndex: 2 }}>
+					<tr>
+						<th>
+							<input className="form-check-input m-1" role="button" type="checkbox" value="" aria-label="Checkbox for following cell" onChange={(e) => toggleAllChecked(e.target.checked)} checked={allChecked} />
+						</th>
+						<th>Name</th>
+						<th>Email</th>
+						<th>Status</th>
+						<th>Last Seen</th>
+					</tr>
+				</thead>
+				<tbody className="align-items-center">
+					{users.map((user, currentRowIndex) => (
+						<Row user={user} checked={checkedRows[currentRowIndex]} onChange={(value) => toggleRowChecked(currentRowIndex, value)} key={user.email} />
+					))}
+				</tbody>
+			</table>
+		</>
 	);
 }
-
-// minute, week, day

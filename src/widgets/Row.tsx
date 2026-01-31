@@ -9,7 +9,7 @@ export default function Row({ checked, onChange, user: { email, lastSeen, name, 
 			</td>
 			<td>{name}</td>
 			<td>{email}</td>
-			<td>{status[0].toUpperCase() + status.slice(1)}</td>
+			<td className="text-capitalize">{status}</td>
 			<td>{getLastActivity(lastSeen)}</td>
 		</tr>
 	);
