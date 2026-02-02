@@ -26,7 +26,6 @@ const data: User[] = [
 
 export default function UsersTable() {
 	const [users, setUsers] = useState<User[]>(data);
-
 	const [checkedRows, setCheckedRows] = useState<boolean[]>(new Array(users.length).fill(false));
 
 	const allChecked = checkedRows.length > 0 && checkedRows.every(Boolean);
@@ -45,9 +44,19 @@ export default function UsersTable() {
 		setUsers(newUsers);
 		setCheckedRows(new Array(users.length).fill(false));
 	};
+	const blockSelectedUsers = () => {
+		const newUsers = [
+			...users.map((user, i) => {
+				if (checkedRows[i]) user.status = "blocked";
+				return user;
+			}),
+		];
+		setUsers(newUsers);
+		setCheckedRows(new Array(users.length).fill(false));
+	};
 	return (
 		<>
-			<Controls deleteUsers={deleteSelectedUsers} />
+			<Controls deleteUsers={deleteSelectedUsers} blockUsers={blockSelectedUsers} />
 			<span className="d-block bg-white w-100 position-fixed top-0" style={{ zIndex: 1, height: "86.5px" }}></span>
 			<table className="table">
 				<colgroup>
@@ -55,7 +64,7 @@ export default function UsersTable() {
 					<col style={{ width: "25%" }} />
 					<col style={{ width: "25%" }} />
 					<col style={{ width: "25%" }} />
-				</colgroup> 
+				</colgroup>
 				<thead className="fs-md-6 fixed table-dark position-sticky" style={{ top: "46px", zIndex: 2 }}>
 					<tr>
 						<th>

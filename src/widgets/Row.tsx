@@ -3,7 +3,7 @@ import type { User } from "../entities/types";
 
 export default function Row({ checked, onChange, user: { email, lastSeen, name, status } }: { checked: boolean; onChange: (value: boolean) => void; user: User }) {
 	return (
-		<tr>
+		<tr className="position-relative">
 			<td>
 				<input className="form-check-input ms-1 me-1" role="button" type="checkbox" aria-label="Checkbox for following cell" onChange={(e) => onChange(e.target.checked)} checked={checked} />
 			</td>
@@ -11,6 +11,7 @@ export default function Row({ checked, onChange, user: { email, lastSeen, name, 
 			<td>{email}</td>
 			<td className="text-capitalize">{status}</td>
 			<td>{getLastActivity(lastSeen)}</td>
+			{status === "blocked" && <span className="position-absolute bg-dark end-0 top-50 translate-middle-x-middle p-0" style={{ width: "98%", height: "1px" }}></span>}
 		</tr>
 	);
 }

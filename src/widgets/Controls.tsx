@@ -1,7 +1,7 @@
-export default function Controls({ deleteUsers }: { deleteUsers: () => void }) {
+export default function Controls({ deleteUsers, blockUsers }: { deleteUsers: () => void; blockUsers: () => void }) {
 	return (
 		<div className="d-flex justify-content-start w-100 gap-2 position-sticky" style={{ top: "4px", zIndex: 2 }}>
-			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }}>
+			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }} onClick={blockUsers}>
 				<i className="bi bi-lock-fill me-1"></i>
 				Block
 			</button>
