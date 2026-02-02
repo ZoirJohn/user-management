@@ -1,7 +1,7 @@
 import { useRef, type FormEvent } from "react";
 import { Link } from "react-router";
 
-export default function Login() {
+export default function Register() {
 	const form = useRef(null);
 	function submit(e: FormEvent) {
 		// @ts-ignore
@@ -13,8 +13,15 @@ export default function Login() {
 		form.current!.classList?.add("was-validated");
 	}
 	return (
-		<form className="d-flex flex-column gap-4 p-4 border rounded-2 needs-validation" style={{ width: "20%" }} action="" onSubmit={submit} noValidate ref={form}>
-			<h1 className="m-0">Login</h1>
+		<form className="d-flex flex-column gap-4 p-4 border rounded-2 needs-validation" style={{ width: "20%" }} onSubmit={submit} noValidate ref={form}>
+			<h1 className="m-0">Register</h1>
+			<div>
+				<label htmlFor="name" className="form-label">
+					Name
+				</label>
+				<input type="text" className="form-control" id="name" required autoComplete="name" />
+				<p className="invalid-feedback">Please provide a name</p>
+			</div>
 			<div>
 				<label htmlFor="email" className="mb-0 form-label">
 					Email
@@ -26,14 +33,14 @@ export default function Login() {
 				<label htmlFor="password" className="mb-0 form-label">
 					Password
 				</label>
-				<input type="password" id="password" className="form-control" aria-describedby="passwordHelpBlock" autoComplete="current-password" required />
+				<input type="password" id="password" className="form-control" aria-describedby="passwordHelpBlock" autoComplete="new-password" required />
 				<p className="invalid-feedback">Please provide a password</p>
 			</div>
-			<Link to="/register" className="text-center">
-				Don't have an account? Register
+			<Link to="/login" className="text-center">
+				Already have an account? Login
 			</Link>
-			<button type="submit" className="btn btn-primary align-self-end">
-				Login
+			<button type="submit" className="align-self-end btn btn-primary">
+				Register
 			</button>
 		</form>
 	);

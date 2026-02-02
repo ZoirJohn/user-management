@@ -7,6 +7,7 @@ import Login from "./pages/Login.tsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.min.css";
 import "./css/style.css";
+import Register from "./pages/Register.tsx";
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
 			<Routes>
 				<Route path="/" element={<Home />} />
 				<Route path="/login" element={<Login />} />
+				<Route path="/register" element={<Register />} />
 				<Route path="*" element={<Navigate to="/not-found" />} />
 				<Route path="/not-found" element={<NotFound />} />
 			</Routes>
