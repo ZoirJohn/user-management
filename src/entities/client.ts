@@ -1,9 +1,6 @@
-import { useNavigate } from "react-router";
-
-const API_URL = import.meta.env.VITE_API_URL!;
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
-	const navigate = useNavigate();
 	const token = localStorage.getItem("token");
 
 	const res = await fetch(`${API_URL}${path}`, {
@@ -16,10 +13,10 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
 	});
 
 	const data = await res.json();
-
+	
 	if (!res.ok && (res.status === 401 || data.redirect === "/login")) {
 		localStorage.clear();
-		navigate("/login", { replace: true });
+		window.location.href = "/login";
 		return;
 	}
 

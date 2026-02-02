@@ -1,5 +1,6 @@
 import { useRef, type FormEvent } from "react";
 import { Link } from "react-router";
+import { register } from "../entities/api/auth.api";
 
 export default function Register() {
 	const form = useRef(null);
@@ -11,6 +12,17 @@ export default function Register() {
 		}
 		// @ts-ignore
 		form.current!.classList?.add("was-validated");
+
+		const { name, email, password } = {
+			//@ts-ignore
+			name: form.current!.querySelector("#name").value,
+			//@ts-ignore
+			email: form.current!.querySelector("#email").value,
+			//@ts-ignore
+			password: form.current!.querySelector("#password").value,
+		};
+		e.preventDefault();
+		register(name, email, password);
 	}
 	return (
 		<form className="d-flex flex-column gap-4 p-4 border rounded-2 needs-validation" style={{ width: "20%" }} onSubmit={submit} noValidate ref={form}>
