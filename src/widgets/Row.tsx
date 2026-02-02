@@ -9,9 +9,11 @@ export default function Row({ checked, onChange, user: { email, lastSeen, name, 
 			</td>
 			<td>{name}</td>
 			<td>{email}</td>
-			<td className="text-capitalize">{status}</td>
+			<td className="text-capitalize">
+				<span className={"badge" + " " + (status === "active" ? "text-bg-success" : status === "unverified" ? "text-bg-warning" : "text-bg-danger")}>{status}</span>
+			</td>
 			<td>{getLastActivity(lastSeen)}</td>
-			{status === "blocked" && <span className="position-absolute bg-dark end-0 top-50 translate-middle-x-middle p-0" style={{ width: "98%", height: "1px" }}></span>}
+			{status === "blocked" && <td className="position-absolute end-0 top-50 p-0 border-black" style={{ width: "98%", height: "1px" }}></td>}
 		</tr>
 	);
 }
