@@ -2,7 +2,6 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export async function apiFetch(path: string, options: RequestInit = {}) {
 	const token = localStorage.getItem("token");
-
 	const res = await fetch(`${API_URL}${path}`, {
 		...options,
 		headers: {
@@ -11,14 +10,12 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
 			...options.headers,
 		},
 	});
-
 	const data = await res.json();
-	
+	console.log(data);
 	if (!res.ok && (res.status === 401 || data.redirect === "/login")) {
 		localStorage.clear();
 		window.location.href = "/login";
 		return;
 	}
-
 	return data;
 }

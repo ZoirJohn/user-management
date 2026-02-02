@@ -1,9 +1,11 @@
 import { useRef, type FormEvent } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import { login } from "../entities/api/auth.api";
 
 export default function Login() {
 	const form = useRef(null);
-	function submit(e: FormEvent) {
+	const navigate = useNavigate();
+	async function submit(e: FormEvent) {
 		// @ts-ignore
 		if (!form.current?.checkValidity?.()) {
 			e.preventDefault();
@@ -11,6 +13,17 @@ export default function Login() {
 		}
 		// @ts-ignore
 		form.current!.classList?.add("was-validated");
+		const { email, password } = {
+			//@ts-ignore
+			email: form.current!.querySelector("#email").value,
+			//@ts-ignore
+			password: form.current!.querySelector("#password").value,
+		};
+		e.preventDefault();
+		const res = await login(email, password);
+		if (!res.success) return;
+		localStorage.setItem("token", res.data.token);
+		// navigate("/", { replace: true });
 	}
 	return (
 		<form className="d-flex flex-column gap-4 p-4 border rounded-2 needs-validation" style={{ width: "20%" }} action="" onSubmit={submit} noValidate ref={form}>

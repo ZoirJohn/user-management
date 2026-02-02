@@ -9,15 +9,19 @@ import "bootstrap-icons/font/bootstrap-icons.min.css";
 import "./css/style.css";
 import Register from "./pages/Register.tsx";
 import { ProtectedRoute } from "./widgets/ProtectedRoute.tsx";
+import VerifyEmail from "./pages/VerifyEmail.tsx";
+
+const isPublic = !localStorage.getItem("token");
+const isPrivate = !localStorage.getItem("token");
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<BrowserRouter>
 			<Routes>
-				<Route path="/" element={<ProtectedRoute children={<Home />} />} />
-				<Route path="/login" element={<Login />} />
+				<Route path="/" element={<ProtectedRoute children={<Home />} isProtected={isPrivate} />} />
+				<Route path="/login" element={<Login />}/>
 				<Route path="/register" element={<Register />} />
-				<Route path="/verify-email" element={<Register />} />
+				<Route path="/verify-email" element={<VerifyEmail />} />
 				<Route path="*" element={<Navigate to="/not-found" />} />
 				<Route path="/not-found" element={<NotFound />} />
 			</Routes>

@@ -13,3 +13,5 @@ export const register = (name: string, email: string, password: string) =>
 	});
 
 export const getMe = () => apiFetch("/auth/me");
+
+export const verifyEmail = (token: string) => apiFetch(`/auth/verify-email?token=${token}`);
