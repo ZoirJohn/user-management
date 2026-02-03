@@ -32,7 +32,6 @@ export default function Register() {
 			if (!res.success) {
 				throw new Error(res.message);
 			}
-			localStorage.setItem("token", res.data.token);
 			navigate("/login");
 		} catch (error: unknown) {
 			if (error instanceof Error) {

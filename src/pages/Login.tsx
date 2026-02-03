@@ -31,9 +31,7 @@ export default function Login() {
 			}
 			localStorage.setItem("token", res.data.token);
 			setSuccess(true);
-			setTimeout(() => {
-				navigate("/");
-			}, 2000);
+			navigate("/");
 		} catch (error: unknown) {
 			if (error instanceof Error) {
 				console.error(error);
@@ -60,7 +58,7 @@ export default function Login() {
 					<p className="invalid-feedback">Please provide a password</p>
 				</div>
 				{errorMsg && <span className="text-danger">{errorMsg}</span>}
-				{isSuccess && <span className="text-success">Registration successful</span>}
+				{isSuccess && <span className="text-success">Registration successful, please login</span>}
 				<Link to="/register" className="text-center">
 					Don't have an account? Register
 				</Link>
