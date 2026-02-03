@@ -1,12 +1,14 @@
-import { useRef, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { login } from "../entities/api/auth.api";
 import { ProtectedRoute } from "../widgets/ProtectedRoute";
 import { getIsTokenTruthy } from "../entities/lib/getIsTokenTruthy";
 
 export default function Login() {
-	const form = useRef(null);
 	const navigate = useNavigate();
+	const [errorMsg, setErrorMsg] = useState<string>("");
+	const [isSuccess, setSuccess] = useState<boolean>(false);
+	const form = useRef(null);
 	async function submit(e: FormEvent) {
 		// @ts-ignore
 		if (!form.current?.checkValidity?.()) {
@@ -22,10 +24,22 @@ export default function Login() {
 			password: form.current!.querySelector("#password").value,
 		};
 		e.preventDefault();
-		const res = await login(email, password);
-		if (!res.success) return;
-		localStorage.setItem("token", res.data.token);
-		navigate("/", { replace: true });
+		try {
+			const res = await login(email, password);
+			if (!res.success) {
+				throw new Error(res.message);
+			}
+			localStorage.setItem("token", res.data.token);
+			setSuccess(true);
+			setTimeout(() => {
+				navigate("/");
+			}, 2000);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error(error);
+				setErrorMsg(error.message);
+			}
+		}
 	}
 	return (
 		<ProtectedRoute isProtected={getIsTokenTruthy()} redirect="/">
@@ -45,6 +59,8 @@ export default function Login() {
 					<input type="password" id="password" className="form-control" aria-describedby="passwordHelpBlock" autoComplete="current-password" required />
 					<p className="invalid-feedback">Please provide a password</p>
 				</div>
+				{errorMsg && <span className="text-danger">{errorMsg}</span>}
+				{isSuccess && <span className="text-success">Registration successful</span>}
 				<Link to="/register" className="text-center">
 					Don't have an account? Register
 				</Link>

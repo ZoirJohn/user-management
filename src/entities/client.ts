@@ -11,11 +11,8 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
 		},
 	});
 	const data = await res.json();
-	console.log(data);
 	if (!res.ok && (res.status === 401 || data.redirect === "/login")) {
 		localStorage.clear();
-		window.location.href = "/login";
-		return;
 	}
 	return data;
 }

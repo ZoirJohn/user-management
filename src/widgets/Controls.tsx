@@ -11,8 +11,11 @@ export default function Controls({ unblockSelectedUsers, blockSelectedUsers, del
 			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }} onClick={deleteSelectedUsers}>
 				<i className="bi bi-trash-fill"></i>
 			</button>
-			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }}>
+			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }} onClick={deleteSelectedUsers}>
 				<i className="bi bi-x-circle-fill"></i>
+			</button>
+			<button type="button" className="ms-auto btn btn-secondary" onClick={() => localStorage.clear()}>
+				Logout
 			</button>
 		</div>
 	);

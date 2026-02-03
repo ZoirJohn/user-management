@@ -1,12 +1,14 @@
-import { useRef, type FormEvent } from "react";
-import { Link } from "react-router";
+import { useRef, useState, type FormEvent } from "react";
+import { Link, useNavigate } from "react-router";
 import { register } from "../entities/api/auth.api";
 import { ProtectedRoute } from "../widgets/ProtectedRoute";
 import { getIsTokenTruthy } from "../entities/lib/getIsTokenTruthy";
 
 export default function Register() {
+	const [errorMsg, setErrorMsg] = useState<string>("");
+	const navigate = useNavigate();
 	const form = useRef(null);
-	function submit(e: FormEvent) {
+	async function submit(e: FormEvent) {
 		// @ts-ignore
 		if (!form.current?.checkValidity?.()) {
 			e.preventDefault();
@@ -24,7 +26,20 @@ export default function Register() {
 			password: form.current!.querySelector("#password").value,
 		};
 		e.preventDefault();
-		register(name, email, password);
+
+		try {
+			const res = await register(name, email, password);
+			if (!res.success) {
+				throw new Error(res.message);
+			}
+			localStorage.setItem("token", res.data.token);
+			navigate("/login");
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				console.error(error);
+				setErrorMsg(error.message);
+			}
+		}
 	}
 	return (
 		<ProtectedRoute isProtected={getIsTokenTruthy()} redirect="/">
@@ -51,6 +66,7 @@ export default function Register() {
 					<input type="password" id="password" className="form-control" aria-describedby="passwordHelpBlock" autoComplete="new-password" required />
 					<p className="invalid-feedback">Please provide a password</p>
 				</div>
+				{errorMsg && <span className="text-danger">{errorMsg}</span>}
 				<Link to="/login" className="text-center">
 					Already have an account? Login
 				</Link>
