@@ -1,14 +1,14 @@
-export default function Controls({ deleteUsers, blockUsers, unblockUsers }: { deleteUsers: () => void; blockUsers: () => void; unblockUsers: () => void }) {
+export default function Controls({ unblockSelectedUsers, blockSelectedUsers, deleteSelectedUsers }: { unblockSelectedUsers: () => void; blockSelectedUsers: () => void; deleteSelectedUsers: () => void; deleteUnverifiedUsers: () => void }) {
 	return (
 		<div className="d-flex justify-content-start w-100 gap-2 position-sticky" style={{ top: "4px", zIndex: 2 }}>
-			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }} onClick={blockUsers}>
+			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }} onClick={blockSelectedUsers}>
 				<i className="bi bi-lock-fill me-1"></i>
 				Block
 			</button>
-			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }} onClick={unblockUsers}>
+			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }} onClick={unblockSelectedUsers}>
 				<i className="bi bi-unlock-fill"></i>
 			</button>
-			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }} onClick={deleteUsers}>
+			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }} onClick={deleteSelectedUsers}>
 				<i className="bi bi-trash-fill"></i>
 			</button>
 			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }}>

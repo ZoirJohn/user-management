@@ -1,7 +1,4 @@
-import { useNavigate } from "react-router";
-
 export async function getUsers() {
-	const navigate = useNavigate();
 	try {
 		const token = localStorage.getItem("token");
 
@@ -18,8 +15,10 @@ export async function getUsers() {
 		if (!data.success && data.redirect === "/login") {
 			localStorage.removeItem("token");
 			localStorage.removeItem("user");
-			navigate("/login", { replace: true });
+			window.location.href = "/login";
 		}
+
+		return data;
 	} catch (error) {
 		console.error("Error getting users:", error);
 	}

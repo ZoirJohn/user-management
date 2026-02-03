@@ -1,7 +1,7 @@
 import { getLastActivity } from "../entities/lib/getLastActivity";
 import type { User } from "../entities/types";
 
-export default function Row({ checked, onChange, user: { email, lastSeen, name, status } }: { checked: boolean; onChange: (value: boolean) => void; user: User }) {
+export default function Row({ checked, onChange, user: { email, last_login_time, name, status } }: { checked: boolean; onChange: (value: boolean) => void; user: User }) {
 	return (
 		<tr className="position-relative">
 			<td>
@@ -12,7 +12,7 @@ export default function Row({ checked, onChange, user: { email, lastSeen, name, 
 			<td className="text-capitalize">
 				<span className={"badge" + " " + (status === "active" ? "text-bg-success" : status === "unverified" ? "text-bg-warning" : "text-bg-danger")}>{status}</span>
 			</td>
-			<td>{getLastActivity(lastSeen)}</td>
+			<td>{getLastActivity(new Date(last_login_time))}</td>
 			{status === "blocked" && <td className="position-absolute end-0 top-50 p-0 border-black" style={{ width: "98%", height: "1px" }}></td>}
 		</tr>
 	);

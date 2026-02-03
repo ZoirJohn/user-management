@@ -1,6 +1,10 @@
 export interface User {
-	name: string;
+	created_at: string;
 	email: string;
-	status: "active" | "unverified" | "blocked";
-	lastSeen: Date;
+	id: number;
+	last_login_time: string;
+	name: string;
+	registration_time: string;
+	status: "active" | "blocked" | "unverified";
 }
+type UsersWithSelection = User & { selected: boolean };

@@ -1,73 +1,50 @@
-import { useState } from "react";
-import type { User } from "../entities/types";
+import { useEffect, useState } from "react";
+import type { User, UsersWithSelection } from "../entities/types";
 import Row from "./Row";
 import Controls from "./Controls";
+import { getUsers } from "../entities/lib/getUsers";
 
-const data: User[] = [
-	{
-		name: "John Doe",
-		email: "johndoe@email.com",
-		status: "active",
-		lastSeen: new Date("2025-03-31T12:00:00+05:00"),
-	},
-	{
-		name: "Jane Smith",
-		email: "janesmith@email.com",
-		status: "unverified",
-		lastSeen: new Date("2025-03-31T12:00:00+05:00"),
-	},
-	{
-		name: "Bob Johnson",
-		email: "bobjohnson@email.com",
-		status: "blocked",
-		lastSeen: new Date("2025-03-31T12:00:00+05:00"),
-	},
-];
 
 export default function UsersTable() {
-	const [users, setUsers] = useState<User[]>(data);
-	const [checkedRows, setCheckedRows] = useState<boolean[]>(new Array(users.length).fill(false));
-	const resetSelectedRows = () => setCheckedRows(new Array(users.length).fill(false));
-	const allChecked = checkedRows.length > 0 && checkedRows.every(Boolean);
-	const toggleAllChecked = (value: boolean) => {
-		setCheckedRows(new Array(users.length).fill(value));
-	};
-	const toggleRowChecked = (index: number, value: boolean) => {
-		setCheckedRows((prev) => {
-			const newCheckedRows = [...prev];
-			newCheckedRows[index] = value;
-			return newCheckedRows;
+	const [users, setUsers] = useState<UsersWithSelection[]>([]);
+	const fetchUsers = () => {
+		getUsers().then((res) => {
+			const usersWithSelection = res.data.users.map((user: User) => ({ ...user, selected: false }));
+			setUsers(usersWithSelection);
 		});
 	};
+
+	const allChecked = users.length > 0 && users.every((user) => user.selected);
+
+	const toggleAllChecked = (value: boolean) => {
+		setUsers((prev) => prev.map((u) => ({ ...u, selected: value })));
+	};
+	const toggleRowChecked = (index: number, value: boolean) => {
+		setUsers((prev) => {
+			const newUsers = [...prev];
+			newUsers[index] = { ...newUsers[index], selected: value };
+			return newUsers;
+		});
+	};
+
 	const deleteSelectedUsers = () => {
-		const newUsers = [...users.filter((_, i) => !checkedRows[i])];
-		setUsers(newUsers);
-		resetSelectedRows();
+		setUsers((prev) => prev.filter((u) => !u.selected));
 	};
+	const deleteUnverifiedUsers = () => {};
 	const blockSelectedUsers = () => {
-		const newUsers = [
-			...users.map((user, i) => {
-				if (checkedRows[i]) user.status = "blocked";
-				return user;
-			}),
-		];
-		setUsers(newUsers);
-		resetSelectedRows();
+		setUsers((prev) => prev.map((u) => (u.selected ? { ...u, status: "blocked", selected: false } : u)));
 	};
+
 	const unblockSelectedUsers = () => {
-		const newUsers = [
-			...users.map((user, i) => {
-				if (checkedRows[i]) user.status = "unverified";
-				return user;
-			}),
-		];
-		setUsers(newUsers);
-		resetSelectedRows();
+		setUsers((prev) => prev.map((u) => (u.selected ? { ...u, status: "unverified", selected: false } : u)));
 	};
+
+	useEffect(() => fetchUsers(), []);
+
 	return (
 		<>
-			<Controls deleteUsers={deleteSelectedUsers} blockUsers={blockSelectedUsers} unblockUsers={unblockSelectedUsers} />
-			<span className="d-block bg-white w-100 position-fixed top-0" style={{ zIndex: 1, height: "86.5px" }}></span>
+			<Controls deleteSelectedUsers={deleteSelectedUsers} unblockSelectedUsers={unblockSelectedUsers} blockSelectedUsers={blockSelectedUsers} deleteUnverifiedUsers={deleteUnverifiedUsers}  />
+			<span className="d-block top-0 position-fixed bg-white w-100" style={{ zIndex: 1, height: "86.5px" }}></span>
 			<table className="table">
 				<colgroup>
 					<col style={{ width: "40px" }} />
@@ -75,10 +52,10 @@ export default function UsersTable() {
 					<col style={{ width: "25%" }} />
 					<col style={{ width: "25%" }} />
 				</colgroup>
-				<thead className="fs-md-6 fixed table-dark position-sticky" style={{ top: "46px", zIndex: 2 }}>
+				<thead className="table-dark fixed position-sticky fs-md-6" style={{ top: "46px", zIndex: 2 }}>
 					<tr>
 						<th>
-							<input className="form-check-input m-1" role="button" type="checkbox" value="" aria-label="Checkbox for following cell" onChange={(e) => toggleAllChecked(e.target.checked)} checked={allChecked} />
+							<input className="m-1 form-check-input" role="button" type="checkbox" value="" aria-label="Checkbox for following cell" onChange={(e) => toggleAllChecked(e.target.checked)} checked={allChecked} />
 						</th>
 						<th>Name</th>
 						<th>Email</th>
@@ -88,7 +65,7 @@ export default function UsersTable() {
 				</thead>
 				<tbody className="align-items-center">
 					{users.map((user, currentRowIndex) => (
-						<Row user={user} checked={checkedRows[currentRowIndex]} onChange={(value) => toggleRowChecked(currentRowIndex, value)} key={user.email} />
+						<Row user={user} checked={user.selected} onChange={(value) => toggleRowChecked(currentRowIndex, value)} key={user.email} />
 					))}
 				</tbody>
 			</table>
