@@ -102,12 +102,15 @@ export default function UsersTable() {
 				}
 			});
 	};
-
+	const logout = () => {
+		localStorage.clear();
+		fetchUsers();
+	};
 	useEffect(() => fetchUsers(), []);
 	return (
 		<ProtectedRoute isProtected={!getIsTokenTruthy()} redirect="/login">
 			<>
-				<Controls deleteSelectedUsers={deleteSelectedUsers} unblockSelectedUsers={unblockSelectedUsers} blockSelectedUsers={blockSelectedUsers} deleteUnverifiedUsers={deleteUnverifiedUsers} />
+				<Controls deleteSelectedUsers={deleteSelectedUsers} unblockSelectedUsers={unblockSelectedUsers} blockSelectedUsers={blockSelectedUsers} deleteUnverifiedUsers={deleteUnverifiedUsers} logout={logout} />
 				<span className="d-block top-0 position-fixed bg-white w-100" style={{ zIndex: 1, height: "86.5px" }}></span>
 				<table className="table">
 					<colgroup>

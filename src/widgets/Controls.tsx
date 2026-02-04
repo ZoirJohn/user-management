@@ -1,4 +1,4 @@
-export default function Controls({ unblockSelectedUsers, blockSelectedUsers, deleteSelectedUsers }: { unblockSelectedUsers: () => void; blockSelectedUsers: () => void; deleteSelectedUsers: () => void; deleteUnverifiedUsers: () => void }) {
+export default function Controls({ unblockSelectedUsers, blockSelectedUsers, deleteSelectedUsers, logout }: { unblockSelectedUsers: () => void; blockSelectedUsers: () => void; deleteSelectedUsers: () => void; deleteUnverifiedUsers: () => void; logout: () => void }) {
 	return (
 		<div className="d-flex justify-content-start w-100 gap-2 position-sticky" style={{ top: "4px", zIndex: 2 }}>
 			<button type="button" className="btn btn-outline-primary" style={{ transition: "all 300ms" }} onClick={blockSelectedUsers}>
@@ -14,7 +14,7 @@ export default function Controls({ unblockSelectedUsers, blockSelectedUsers, del
 			<button type="button" className="btn btn-outline-danger" style={{ transition: "all 300ms" }} onClick={deleteSelectedUsers}>
 				<i className="bi bi-x-circle-fill"></i>
 			</button>
-			<button type="button" className="ms-auto btn btn-secondary" onClick={() => localStorage.clear()}>
+			<button type="button" className="ms-auto btn btn-secondary" onClick={logout}>
 				Logout
 			</button>
 		</div>

@@ -41,7 +41,7 @@ export default function Login() {
 	}
 	return (
 		<ProtectedRoute isProtected={getIsTokenTruthy()} redirect="/">
-			<form className="d-flex flex-column gap-4 p-4 border rounded-2 needs-validation" style={{ width: "20%" }} action="" onSubmit={submit} noValidate ref={form}>
+			<form className="d-flex flex-column gap-4 p-4 border rounded-2 needs-validation" style={{ width: "20%" }} action="" onSubmit={submit} noValidate ref={form} method="POST">
 				<h1 className="m-0">Login</h1>
 				<div>
 					<label htmlFor="email" className="mb-0 form-label">
